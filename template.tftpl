@@ -1,0 +1,20 @@
+# This file is auto-generated.
+
+%{ for p in pairs ~}
+resource "consul_peering_token" "${p.acceptor_name}__${p.dialer_name}" {
+  provider  = consul.${p.acceptor}
+  peer_name = "${p.dialer_name}"
+  %{~ if p.acceptor_partition != "" ~}
+  partition = "${p.acceptor_partition}"
+  %{~ endif ~}
+}
+resource "consul_peering" "${p.dialer_name}__${p.acceptor_name}" {
+  provider  = consul.${p.dialer}
+  peer_name = "${p.acceptor_name}"
+  peering_token = consul_peering_token.${p.acceptor_name}__${p.dialer_name}.peering_token
+  %{~ if p.dialer_partition != "" ~}
+  partition = "${p.dialer_partition}"
+  %{~ endif ~}
+}
+
+%{ endfor ~}
