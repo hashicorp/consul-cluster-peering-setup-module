@@ -75,7 +75,7 @@ locals {
     dialer_name : d.partition == "" ? d.alias : "${d.alias}-${d.partition}",
   }
     ]
-    ])
+  ])
   # This will contain the list of all clusters that should be contacting eachother.
   # A cluster cannot peer to itself.
   cluster_pairs = setsubtract(distinct(local.unclean_pairs), [{}])
