@@ -99,7 +99,7 @@ module "my_peerings" {
 }
 ```
 
-For another example see [`example/main.tf`](https://github.com/hashicorp/tf-consul-cluster-peering/blob/master/example/main.tf) where each cluster is defined as both an `acceptor` and as a `dialer` resulting in each cluster being peered together.
+For more examples see [`examples`](https://github.com/hashicorp/tf-consul-cluster-peering/blob/master/examples).
 
 ## Generate the Terraform module
 To allow for a dynamic module, a template is used to generate the peering module which can then be used to automate the peering.
