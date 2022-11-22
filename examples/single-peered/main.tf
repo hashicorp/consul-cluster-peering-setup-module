@@ -8,14 +8,14 @@ terraform {
 # peerings that are the cross-product of all acceptors to all dialers.
 # In this examples one cluster is peered with three other clusters/partitions
 module "my_peerings" {
-  source            = "../.."
+  source = "../.."
   peering_acceptors = [
-    { alias: "cluster1" },
+    { alias : "cluster1" },
   ]
   peering_dialers = [
-    { alias: "cluster2" },
-    { alias: "cluster2", partition: "mypart" },
-    { alias: "cluster3" },
+    { alias : "cluster2" },
+    { alias : "cluster2", partition : "mypart" },
+    { alias : "cluster3" },
   ]
 }
 

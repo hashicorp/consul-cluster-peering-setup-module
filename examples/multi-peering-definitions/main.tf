@@ -9,24 +9,24 @@ terraform {
 # In this examples we have two different peering definitions to support
 # two different peering configurations
 module "peerings_1" {
-  source            = "../.."
+  source = "../.."
   peering_acceptors = [
-    { alias: "cluster1" },
+    { alias : "cluster1" },
   ]
   peering_dialers = [
-    { alias: "cluster2", partition: "mypart" },
-    { alias: "cluster3" },
+    { alias : "cluster2", partition : "mypart" },
+    { alias : "cluster3" },
   ]
   generated_module_dir = "generated_module_1"
 }
 
 module "peerings_2" {
-  source            = "../.."
+  source = "../.."
   peering_acceptors = [
-    { alias: "cluster2" },
+    { alias : "cluster2" },
   ]
   peering_dialers = [
-    { alias: "cluster3" },
+    { alias : "cluster3" },
   ]
   generated_module_dir = "generated_module_2"
 }
