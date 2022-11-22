@@ -2,7 +2,7 @@
 
 # Check terraform fmt
 echo "==> Checking that code complies with terraform fmt requirements..."
-tffmt_files=$(terraform fmt -check -recursive)
+tffmt_files=$(terraform fmt -check -recursive "$1")
 if [[ -n ${tffmt_files} ]]; then
     echo 'terraform fmt needs to be run on the following files:'
     echo "${tffmt_files}"

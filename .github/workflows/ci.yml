@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+    branches:
+      - main
+      - 'release/**'
+
+env:
+  TERRAFORM_VERSION: 1.3.5
+
+jobs:
+  run-check:
+    name: Run-Check
+    runs-on: ubuntu-latest
+    # This job only runs if the action trigger is manual, a commit push, or a PR from a different repo (fork).
+    # Other jobs can check if this job ran successfully to determine if they should run as well.
+    if: |
+      github.event_name == 'workflow_dispatch' ||
+      github.event_name == 'push' ||
+      (github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name != github.repository)
+    steps:
+      - run: |
+          echo "Run-check job ran successfully"
+          
+  checks:
+    name: Checks
+    runs-on: ubuntu-latest
+    needs:
+      - run-check
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: TERRAFORM_VERSION
+          terraform_wrapper: false
+      - name: Run Terraform checks
+        run: |
+          make terraform-fmt-check TERRAFORM_DIR="${{ github.workspace }}"
