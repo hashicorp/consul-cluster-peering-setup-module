@@ -55,25 +55,25 @@ locals {
   ))
 
   unclean_pairs = flatten([
-  for a in var.peering_acceptors : [
-  for d in var.peering_dialers :
-  # Skip pairs of the same cluster
-  a.alias == d.alias ||
-  # Skip the second instance if we see the same pair twice.
-  (
-  contains(var.peering_acceptors, { alias : d.alias, partition : d.partition })
-  && contains(var.peering_dialers, { alias : a.alias, partition : a.partition })
-  && index(local.order, "${a.alias}+${a.partition}") > index(local.order, "${d.alias}+${d.partition}")
-  )
-  ? {}
-  : {
-    acceptor : a.alias,
-    acceptor_partition : a.partition,
-    acceptor_name : a.partition == "" ? a.alias : "${a.alias}-${a.partition}",
-    dialer : d.alias,
-    dialer_partition : d.partition,
-    dialer_name : d.partition == "" ? d.alias : "${d.alias}-${d.partition}",
-  }
+    for a in var.peering_acceptors : [
+      for d in var.peering_dialers :
+      # Skip pairs of the same cluster
+      a.alias == d.alias ||
+      # Skip the second instance if we see the same pair twice.
+      (
+        contains(var.peering_acceptors, { alias : d.alias, partition : d.partition })
+        && contains(var.peering_dialers, { alias : a.alias, partition : a.partition })
+        && index(local.order, "${a.alias}+${a.partition}") > index(local.order, "${d.alias}+${d.partition}")
+      )
+      ? {}
+      : {
+        acceptor : a.alias,
+        acceptor_partition : a.partition,
+        acceptor_name : a.partition == "" ? a.alias : "${a.alias}-${a.partition}",
+        dialer : d.alias,
+        dialer_partition : d.partition,
+        dialer_name : d.partition == "" ? d.alias : "${d.alias}-${d.partition}",
+      }
     ]
   ])
   # This will contain the list of all clusters that should be contacting eachother.
