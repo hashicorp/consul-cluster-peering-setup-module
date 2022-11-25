@@ -6,7 +6,7 @@ tffmt_files=$(terraform fmt -check -recursive "$1")
 if [[ -n ${tffmt_files} ]]; then
     echo 'terraform fmt needs to be run on the following files:'
     echo "${tffmt_files}"
-    echo "You can use the command: \`terraform fmt\` to reformat code."
+    echo "You can use the command: \`make terraform-fmt\` to reformat all terraform code."
     exit 1
 fi
 
