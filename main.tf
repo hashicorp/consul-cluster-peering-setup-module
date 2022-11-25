@@ -7,32 +7,6 @@ terraform {
   }
 }
 
-variable "generated_module_dir" {
-  type    = string
-  default = "generated_module"
-}
-
-variable "provider_file" {
-  type    = string
-  default = "providers.tf"
-}
-
-variable "peering_acceptors" {
-  type = list(object({
-    alias     = string
-    partition = optional(string, "")
-  }))
-  default = []
-}
-
-variable "peering_dialers" {
-  type = list(object({
-    alias     = string
-    partition = optional(string, "")
-  }))
-  default = []
-}
-
 resource "local_file" "output_main_file" {
   content = templatefile("${path.module}/template.tftpl", {
     pairs = local.pairs
