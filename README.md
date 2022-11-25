@@ -2,7 +2,7 @@
 
 Terraform module for easily peering multiple Consul clusters together. For more information on cluster peering see [the documentation](https://developer.hashicorp.com/consul/docs/connect/cluster-peering).
 
-> **_NOTE:_** Because Terraform modules have a restriction with not allowing dynamically generated providers,
+> **_NOTE:_** Because Terraform modules have a restriction with [not allowing dynamically generated providers](https://support.hashicorp.com/hc/en-us/articles/6304194229267-Dynamic-provider-configuration),
 this is a two-step approach (each Consul cluster is a provider entry).
 
 # Pre-Requisites
@@ -98,7 +98,7 @@ See [Consul Peering Generate Token](https://developer.hashicorp.com/consul/comma
 #### Sensitive Tokens
 If the token is very sensitive, for instance, when using the bootstrap token, it is recommended to instead pass the token via an environment variable. The token environment variables are defined [here](https://registry.terraform.io/providers/hashicorp/consul/latest/docs#token). 
 
-Alternatively, you can define variables for the tokens and pass them via the Terraform command directly. Keep this in mind when we cover [generating the Terraform module](#Generate-the-Terraform-module) and [Setting up peering connections](#Setup-peering-connections)
+Alternatively, you can define variables for the tokens and pass them via the Terraform command directly or via the environment. Keep this in mind when we cover [generating the Terraform module](#Generate-the-Terraform-module) and [setting up peering connections](#Setup-peering-connections)
 
 #### Example
 ```hcl
@@ -124,11 +124,19 @@ provider "consul" {
 }
 ```
 
+Now [pass the variables via the CLI](https://developer.hashicorp.com/terraform/language/values/variables#variables-on-the-command-line)
+
 ```shell
 terraform apply -var="token2=ac9341ad-afd7-878c-3be0-54c9d11af881" -var="token1=f7be2e00-37fd-5f2d-18c8-3b30cdf5df38"
 ```
 
-For more information on passing variables to the Terraform command see [Variables on the Command Line](https://developer.hashicorp.com/terraform/language/values/variables#variables-on-the-command-line).
+or Terraform also supports environment variables by [prepending `TF_VARS_` to the variable name when exporting](https://developer.hashicorp.com/terraform/cli/config/environment-variables#tf_var_name).
+
+```shell
+export TF_VAR_token1="ac9341ad-afd7-878c-3be0-54c9d11af881"
+export TF_VAR_token2="token1=f7be2e00-37fd-5f2d-18c8-3b30cdf5df38"
+terraform apply
+```
 
 ## Create the Terraform script
 Here you can utilize the `consul-cluster-peering-setup-module` module to automate the creation of peering connections for your cluster. The script can either use a local version of this module or point to this git repository.
