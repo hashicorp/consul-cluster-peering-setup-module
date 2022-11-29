@@ -75,7 +75,8 @@ For more information on the Consul provider see the [Terraform Registry document
 ### Securing Consul with Access Control Lists (ACLs)
 It is recommended for production Consul that Consul clusters are [secured with Access Control Lists (ACls)](https://developer.hashicorp.com/consul/tutorials/security/access-control-setup-production)
 
-When a Consul cluster is secured, a token must be included in the provider file definition for each Consul cluster. 
+When a Consul cluster is secured, a token must be included in the provider file definition for each Consul cluster. See [Consul Peering Generate Token](https://developer.hashicorp.com/consul/commands/peering/generate-token) for more information on the required ACL permissions.
+
 
 #### Example:
 ```hcl
@@ -92,8 +93,6 @@ provider "consul" {
    token = "<Consul ACL token with appropriate permissions>"
 }
 ```
-
-See [Consul Peering Generate Token](https://developer.hashicorp.com/consul/commands/peering/generate-token) for more information on the required ACL permissions.
 
 #### Sensitive Tokens
 If the token is very sensitive, for instance, when using the bootstrap token, it is recommended to instead pass the token via an environment variable. The token environment variables are defined [here](https://registry.terraform.io/providers/hashicorp/consul/latest/docs#token). 
@@ -235,6 +234,9 @@ module "my_peerings" {
 ```
 
 In the above example `cluster1` remains peered to `cluster2` and `cluster3` even while Terraform is running. Only peering to `cluster2 mypart` is removed.
+
+# Examples
+Some extra examples have been included with this module, see the [examples README.md](https://github.com/hashicorp/consul-cluster-peering-setup-module/tree/main/examples/README.md) for more details.
 
 # Troubleshooting
 ## Access Control Lists (ACLs)
