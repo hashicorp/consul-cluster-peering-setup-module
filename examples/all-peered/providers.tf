@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 provider "consul" {
   alias   = "cluster1"
   address = "localhost:8500"
