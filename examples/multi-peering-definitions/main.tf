@@ -1,3 +1,6 @@
+# Copyright (c) HashiCorp, Inc.
+# SPDX-License-Identifier: MPL-2.0
+
 terraform {
   # This is local, because it's simply generating from a template and not changing consul.
   # The output files from this module are what should be used with terraform cloud / remote.
